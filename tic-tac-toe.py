@@ -1,6 +1,3 @@
-game_field = [["-" for i in range(3)] for i in range(3)]
-print("This is a game tic-tac-toe. Let's play")
-
 def game_mode_selection():
     flag_1 = input("Enter: 1 - for a two-player game 2 - for a singel game 0 - for exit\n")
     if flag_1 == "1":
@@ -24,7 +21,7 @@ def get_move():
     move = input("Enter the coordinates of the move. First the line number, then the column number (for example: 01)\n")
     if len(move) == 2 and move[0] in "012" and move[1] in "012":
         move = tuple([int(move[0]), int(move[1])])
-        if move_validation(move):
+        if game_field[move[0]][move[1]] == "-":
             return move
         else:
             print("this cell is busy")
@@ -34,15 +31,11 @@ def get_move():
         return get_move()
 
 def show_field():
-    print(f"    0  1  2 ")
-    print(f" 0  {game_field[0][0]}  {game_field[0][1]}  {game_field[0][2]}")
-    print(f" 1  {game_field[1][0]}  {game_field[1][1]}  {game_field[1][2]}")
-    print(f" 2  {game_field[2][0]}  {game_field[2][1]}  {game_field[2][2]}")
-
-def move_validation(move):
-    """move - tuple of two items, each digit (0/1/2)"""
-
-    return game_field[move[0]][move[1]] == "-"
+    separator = "------------------------"
+    print(f"\n     |  0  |  1  |  2  |\n" + separator)
+    for i, line in enumerate(game_field):
+        line = f"  {i}  |  {'  |  '.join(line)}  |"
+        print(line + "\n" + separator)
 
 def make_move(move, flag):
     """move - tuple of two items, each digit (0/1/2).
@@ -54,30 +47,20 @@ def make_move(move, flag):
         game_field[move[0]][move[1]] = "o"
 
 def check_win():
-    column_0, column_1, column_2, diagonal_1, diagonal_2 = [], [], [], [], []
+    win_combinations = [[] for _ in range(8)]
     for i in range(3):
-        column_0.append(game_field[i][0])
-        column_1.append(game_field[i][1])
-        column_2.append(game_field[i][2])
-        diagonal_1.append(game_field[i][i])
-        diagonal_2.append(game_field[2 - i][i])
-    
-    if "-" not in game_field[0] and len(set(game_field[0])) == 1:
-        return "x" if "x" in game_field[0] else "o"
-    elif "-" not in game_field[1] and len(set(game_field[1])) == 1:
-        return "x" if "x" in game_field[1] else "o"
-    elif "-" not in game_field[2] and len(set(game_field[2])) == 1:
-        return "x" if "x" in game_field[2] else "o"
-    elif "-" not in column_0 and len(set(column_0)) == 1:
-        return "x" if "x" in column_0 else "o"
-    elif "-" not in column_1 and len(set(column_1)) == 1:
-        return "x" if "x" in column_1 else "o"
-    elif "-" not in column_2 and len(set(column_2)) == 1:
-        return "x" if "x" in column_2 else "o"
-    elif "-" not in diagonal_1 and len(set(diagonal_1)) == 1:
-        return "x" if "x" in diagonal_1 else "o"
-    elif "-" not in diagonal_2 and len(set(diagonal_2)) == 1:
-        return "x" if "x" in diagonal_2 else "o"
+        win_combinations[0].append(game_field[0][i])
+        win_combinations[1].append(game_field[1][i])
+        win_combinations[2].append(game_field[2][i])
+        win_combinations[3].append(game_field[i][0])
+        win_combinations[4].append(game_field[i][1])
+        win_combinations[5].append(game_field[i][2])
+        win_combinations[6].append(game_field[i][i])
+        win_combinations[7].append(game_field[2 - i][i])
+
+    for i in win_combinations:
+        if "-" not in i and len(set(i)) == 1:
+            return "x" if "x" in i else "o"
     
     if "-" not in game_field[0] and "-" not in game_field[1] and "-" not in game_field[2]:
         return "draw"
@@ -103,6 +86,8 @@ def computer_move():
             if value == "-":
                 return key
 
+game_field = [["-" for i in range(3)] for i in range(3)]
+print("This is a game tic-tac-toe. Let's play")
 game_mode = game_mode_selection()
 
 # Main program logic
