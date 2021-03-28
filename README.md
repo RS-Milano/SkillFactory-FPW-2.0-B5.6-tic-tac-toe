@@ -10,5 +10,6 @@ The game offers two modes:
 
 The logic of computer moves is very primitive, but by chance even he can win =)
 The logic is implemented in a separate function that can be improved if desired.
+*Improved a little AI in current commit
 
 You can run the file through the console using the standard method.
