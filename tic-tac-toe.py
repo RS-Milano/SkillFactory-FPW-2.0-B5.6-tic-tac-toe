@@ -1,3 +1,5 @@
+from collections import Counter
+
 def game_mode_selection():
     flag_1 = input("Enter: 1 - for a two-player game 2 - for a singel game 0 - for exit\n")
     if flag_1 == "1":
@@ -39,7 +41,7 @@ def show_field():
 
 def make_move(move, flag):
     """move - tuple of two items, each digit (0/1/2).
-    flag - digit (1/2): 1 - first player ("x"), 2 - second player ("o")"""
+    flag - digit (1 or 2): 1 - first player ("x"), 2 - second player ("o")"""
 
     if flag == 1:
         game_field[move[0]][move[1]] = "x"
@@ -68,16 +70,54 @@ def check_win():
         return "continue"
 
 def computer_move():
-    """The coputer has vary primitive logic. Can be improved"""
+    """The coputer has vary primitive logic. Can be improved. AI rev.2"""
+
+    if game_field[1][1] == "-":
+        return (1, 1)
+
+    lines = {(0, 0): [], (0, 1): [], (0, 2): [],
+             (1, 0): [], (1, 1): [], (1, 2): [],
+             (2,): [], (3,): []}
+    sign = "x" if game_mode[1] == 2 else "o"
+    for i in range(3):
+        lines[(0, 0)].append(game_field[0][i])
+        lines[(0, 1)].append(game_field[1][i])
+        lines[(0, 2)].append(game_field[2][i])
+        lines[(1, 0)].append(game_field[i][0])
+        lines[(1, 1)].append(game_field[i][1])
+        lines[(1, 2)].append(game_field[i][2])
+        lines[(2,)].append(game_field[i][i])
+        lines[(3,)].append(game_field[2 - i][i])
+    for key, value in lines.items():
+        check = Counter(value)
+        if check["-"] == 1 and len(set(value)) == 2 and sign in value:
+            for i in range (3):
+                if key[0] == 0 and value[i] == "-":
+                    return (key[1], i)
+                if key[0] == 1 and value[i] == "-":
+                    return (i, key[1])
+                if key[0] == 2 and value[i] == "-":
+                    return (i, i)
+                if key[0] == 3 and value[i] == "-":
+                    return (2 - i, i)
+    for key, value in lines.items():
+        check = Counter(value)
+        if check["-"] == 1 and len(set(value)) == 2:
+            for i in range (3):
+                if key[0] == 0 and value[i] == "-":
+                    return (key[1], i)
+                if key[0] == 1 and value[i] == "-":
+                    return (i, key[1])
+                if key[0] == 2 and value[i] == "-":
+                    return (i, i)
+                if key[0] == 3 and value[i] == "-":
+                    return (2 - i, i)
 
     corners = {(0, 0): game_field[0][0], (0, 2): game_field[0][2],
     (2, 0): game_field[2][0], (2, 2): game_field[2][2]}
     middles = {(0, 1): game_field[0][1], (1, 0): game_field[1][0],
     (1, 2): game_field[1][2], (2, 1): game_field[2][1]}
-
-    if game_field[1][1] == "-":
-        return (1, 1)
-    elif "-" in corners.values():
+    if "-" in corners.values():
         for key, value in corners.items():
             if value == "-":
                 return key
@@ -90,7 +130,7 @@ game_field = [["-" for i in range(3)] for i in range(3)]
 print("This is a game tic-tac-toe. Let's play")
 game_mode = game_mode_selection()
 
-# Main program logic
+# Main game logic
 if not game_mode[0]:
     pass
 elif game_mode[0] == 1:
