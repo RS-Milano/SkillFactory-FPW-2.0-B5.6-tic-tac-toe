@@ -1,8 +1,8 @@
-# SkillFactory-FPW-2.0-B5.6-tic-tac-toe
+# SkillFactory_FPW2.0_B
 
 Tic-tac-toe game.
 
-The standard library Python 3.9.2 was used/
+The standard library Python 3.9.2 was used.
 
 The game offers two modes:
 1) multyplayer (for two players)
