@@ -1,5 +1,4 @@
 import os
-import time
 from collections import Counter
 
 def game_mode_selection():
@@ -142,7 +141,6 @@ if game_mode[0] != 0:
             print(f"{first_player} - X\n{second_player} - O\n\n{first_player} turn\n")
             if first_player == "Computer":
                 move = computer_move()
-                # time.sleep(1)
             else:
                 move = get_move()
             game_field[move[0]][move[1]] = "X"
@@ -162,7 +160,6 @@ if game_mode[0] != 0:
             print(f"{first_player} - X\n{second_player} - O\n\n{second_player} turn\n")
             if second_player == "Computer":
                 move = computer_move()
-                # time.sleep(1)
             else:
                 move = get_move()
             game_field[move[0]][move[1]] = "O"
