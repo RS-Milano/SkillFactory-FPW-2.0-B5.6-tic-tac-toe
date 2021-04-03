@@ -2,14 +2,22 @@
 
 Tic-tac-toe game.
 
-The standard library Python 3.9.2 was used.
+Dependence:
+    The standard library Python 3.9.2 is used.
+    Os, time, collections(counter) modules are used.
 
 The game offers two modes:
-1) multyplayer (for two players)
-2) a game with a computer
+    multyplayer (for two players)
+    single-plater (a game with a computer)
 
-The logic of computer moves is very primitive, but by chance even he can win =)
-The logic is implemented in a separate function that can be improved if desired.
-*Improved a little AI in current commit
+Tic-tac-toe game have a primitive stratagy and you are able to non lose.
+Current AI have some defect and gives the opportunity to win.
 
-You can run the file through the console using the standard method.
+Using:
+    You can run the game in IDE.
+    You can run the game via terminal using command ```python tic_tac_toe.py```
+
+Development plans:
+    Сlear the terminal and display a new field after each move
+    Make an invincible AI
+    Stop the game with the result "Draw" if the field is not full and there is no chance of winning
